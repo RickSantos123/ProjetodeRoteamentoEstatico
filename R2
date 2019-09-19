@@ -1,0 +1,46 @@
+Enable
+configure terminal
+hostname RT-01
+banner motd "ACESSO APENAS PARA PESSOAS AUTORIZADAS"
+enable secret SenhadaEnable
+line console 0
+password SenhadaConsole
+login 
+exit
+username estagiario privilege 15 secret SenhaEst
+username administrador privilege 15 secret SenhaAdmin
+line vty 0 15 
+transport input ssh
+exec-timeout 10
+login local 
+exit
+service password-encryption
+interface gigabitEthernet 0/1
+ip address 192.168.0.1 255.255.255.128
+description Grande dia
+no shutdown
+exit
+interface serial 0/0/0
+ip address 200.200.100.9 255.255.255.252
+description Daora legal
+no shutdown
+exit
+interface serial 0/0/1
+ip address 200.200.100.6 255.255.255.252
+description Positividade sempre
+no shutdown
+exit
+login block-for 180 attempts 3 within 60
+security passwords min-length 8
+ip route 10.40.16.0 255.255.240.0 200.200.100.5
+ip route 10.40.16.0 255.255.240.0 200.200.100.10
+ip route 200.200.100.0 255.255.255.252 200.200.100.10
+ip route 200.200.100.0 255.255.255.252 200.200.100.5
+ip route 200.200.100.12 255.255.255.252 200.200.100.5
+ip route 200.200.100.12 255.255.255.252 200.200.100.10
+ip route 172.16.42.0 255.255.254.0 200.200.100.10
+ip route 172.16.42.0 255.255.254.0 200.200.100.5
+ip route 192.168.1.0 255.255.255.128 200.200.100.10
+ip route 192.168.1.0 255.255.255.128 200.200.100.5
+do wr
+
